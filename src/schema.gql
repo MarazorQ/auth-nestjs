@@ -1,0 +1,89 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type ActivateMutationResponse {
+  success: Boolean!
+}
+
+type Auth {
+  """JWT access token"""
+  accessToken: JWT!
+}
+
+input CreateCustomerInput {
+  email: String!
+  password: String!
+}
+
+type CreateCustomerMutationResponse {
+  activationCode: String!
+}
+
+type Customer {
+  activationCode: String!
+
+  """Date and time when object was created."""
+  createdAt: Timestamp!
+  email: String!
+  id: ID!
+  status: CustomerStatus!
+
+  """Date and time when the object was updated last time."""
+  updatedAt: Timestamp!
+}
+
+enum CustomerStatus {
+  ACTIVE
+  INVITED
+}
+
+input GetCustomerInput {
+  cursor: String
+  skip: Int
+  take: Int
+  where: WhereCustomerInput
+}
+
+"""
+A field whose value is a JSON Web Token (JWT): https://jwt.io/introduction.
+"""
+scalar JWT
+
+input LoginInput {
+  email: String!
+  password: String!
+}
+
+type LogoutMigrationResponse {
+  success: Boolean!
+}
+
+type Mutation {
+  activate(activationCode: String!): ActivateMutationResponse!
+  auth(customerId: String!): Token!
+  createCustomer(data: CreateCustomerInput!): CreateCustomerMutationResponse!
+  login(data: LoginInput!): Auth!
+  logout(customerId: String!): LogoutMigrationResponse!
+}
+
+type Query {
+  customers(data: GetCustomerInput!): [Customer!]!
+}
+
+"""
+`Date` type as integer. Type represents date and time as number of milliseconds from start of UNIX epoch.
+"""
+scalar Timestamp
+
+type Token {
+  """JWT access token"""
+  accessToken: JWT!
+}
+
+input WhereCustomerInput {
+  createdAt: Timestamp
+  email: String
+  id: String
+  updatedAt: Timestamp
+}

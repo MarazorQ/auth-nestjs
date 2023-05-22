@@ -1,0 +1,35 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider          = "postgresql"
+  url               = env("DATABASE_URL")
+  shadowDatabaseUrl = env("SHADOW_DATABASE_URL")
+}
+
+model Customer {
+  id        String   @id @unique @default(uuid())
+  email     String   @unique
+  password  String
+  activationCode String @db.VarChar(36) @default("")
+  status    CustomerStatus  @default(INVITED)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  token Token?
+}
+
+model Token {
+  id        String   @id @unique @default(uuid())
+  customer Customer  @relation(fields: [customerId], references: [id])
+  refreshToken String
+  customerId  String  @unique
+}
+
+enum CustomerStatus {
+  ACTIVE 
+  INVITED
+}
