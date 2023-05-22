@@ -2,8 +2,7 @@ import { Args, Query, Resolver, Mutation } from '@nestjs/graphql';
 import { UseGuards } from '@nestjs/common';
 
 import { Customer } from 'lib/entities/customer.entity';
-import { Auth } from 'lib/entities/auth.entity';
-import { Token } from 'lib/entities/token.entity';
+
 import { GqlAuthGuard } from '../auth/guard/gql-auth.guard';
 
 import { CustomerService } from './customer.service';
